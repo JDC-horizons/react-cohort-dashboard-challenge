@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PostContext from "./PostContext";
 import SingleComment from "./SingleComment";
 
@@ -25,7 +25,7 @@ function SinglePost({ post, author }) {
     fetchData();
   }, [id, newComments]);
 
-  const { peopleData, focusPost, setFocusPost, loggedInUser } =
+  const { peopleData, focusPost, setFocusPost, loggedInUser, setFocusUser } =
     useContext(PostContext);
 
   const handleShowMore = () => {
@@ -61,11 +61,23 @@ function SinglePost({ post, author }) {
     console.log(userInput);
   };
 
+  const navigate = useNavigate();
+  const handleProfileClick = () => {
+    setFocusUser(author);
+    navigate("/profile");
+  };
+
   return (
     <div className="post-content">
-      <p className="user-profile-button">{`${author.firstName[0]} ${author.lastName[0]}`}</p>
+      <p
+        className="user-profile-button"
+        onClick={handleProfileClick}
+      >{`${author.firstName[0]} ${author.lastName[0]}`}</p>
       <div className="post-header">
-        <p className="post-user-name">{`${author.firstName} ${author.lastName}`}</p>
+        <p
+          className="post-user-name"
+          onClick={handleProfileClick}
+        >{`${author.firstName} ${author.lastName}`}</p>
         <Link to={`/post`} onClick={handleTitleClick}>
           <p className="post-title">{post.title}</p>
         </Link>

@@ -4,11 +4,11 @@ import PostContext from "./PostContext";
 import { useContext } from "react";
 
 function MainPage() {
-  const { loading } = useContext(PostContext);
+  const { dataLoading, userLoading } = useContext(PostContext);
   return (
     <main id="page-main-area">
-      <UserControls />
-      {loading ? <p>Loading...</p> : <Posts />}
+      {dataLoading || userLoading ? <p></p> : <UserControls />}
+      {dataLoading || userLoading ? <p>Loading...</p> : <Posts />}
     </main>
   );
 }

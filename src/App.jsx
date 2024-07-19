@@ -11,12 +11,11 @@ import Profile from "./Components/Profile";
 function App() {
   let [postData, setPostData] = useState([]);
   let [peopleData, setPeopleData] = useState([]);
-  let [loading, setLoading] = useState(true);
+  let [dataLoading, setDataLoading] = useState(true);
+  let [userLoading, setUserLoading] = useState(true);
   let [focusPost, setFocusPost] = useState(null);
-  let [loggedInUser, setLoggedInUser] = useState({
-    firstName: "Joe",
-    lastName: "Bloggs",
-  });
+  let [focusUser, setFocusUser] = useState(null);
+  let [loggedInUser, setLoggedInUser] = useState({});
   let [newPosts, setNewPosts] = useState([]);
 
   useEffect(() => {
@@ -32,13 +31,18 @@ function App() {
         );
         const peopleApi = await responsePeople.json();
         setPeopleData(peopleApi);
-        setLoading(false);
+        setDataLoading(false);
+        if (userLoading) {
+          const initialUser = peopleApi.find((obj) => obj.id === 1);
+          setLoggedInUser(initialUser);
+          setUserLoading(false);
+        }
       } catch (error) {
         console.error(error);
       }
     }
     fetchData();
-  }, [newPosts]);
+  }, [newPosts, userLoading]);
 
   return (
     <div id="full-page">
@@ -50,9 +54,12 @@ function App() {
           setPostData,
           peopleData,
           setPeopleData,
-          loading,
+          dataLoading,
+          userLoading,
           focusPost,
           setFocusPost,
+          focusUser,
+          setFocusUser,
           newPosts,
           setNewPosts,
         }}
@@ -60,11 +67,10 @@ function App() {
         <BrowserRouter>
           <Header />
           <Sidebar />
-          {/* <MainPage /> */}
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path={"/post"} element={<FullSinglePost />} />
-            <Route path={"/profile"} element={<Profile />} />
+            <Route path={"/profile"} element={<Profile user={focusUser} />} />
           </Routes>
         </BrowserRouter>
       </PostContext.Provider>
