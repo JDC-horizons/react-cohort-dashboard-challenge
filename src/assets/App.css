@@ -232,7 +232,7 @@ p {
 }
 
 #profile-main-area {
-  background-color: #e6ebf5;
+  background-color: #f0f5fa;
   color: #000046;
   display: grid;
   grid-template-rows: 80px 1fr;
@@ -297,4 +297,8 @@ p {
 
 .post-title {
   margin-top: 0;
+}
+
+.current-page {
+  background-color: #e6ebf5;
 }

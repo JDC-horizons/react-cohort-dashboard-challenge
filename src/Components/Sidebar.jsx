@@ -1,9 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import PostContext from "./PostContext";
 
 function Sidebar() {
   const { setFocusPost, setFocusUser, loggedInUser } = useContext(PostContext);
+
+  const location = useLocation();
+  const currentPath = location.pathname;
 
   const handleSidebarLink = () => {
     setFocusPost(null);
@@ -14,7 +17,9 @@ function Sidebar() {
 
   return (
     <aside id="page-left-side">
-      <div className="button-area">
+      <div
+        className={`button-area ${currentPath === "/" ? "current-page" : ""}`}
+      >
         <svg
           width="33"
           height="36"
@@ -31,7 +36,11 @@ function Sidebar() {
           <p>Home</p>
         </Link>
       </div>
-      <div className="button-area">
+      <div
+        className={`button-area ${
+          currentPath === "/profile" ? "current-page" : ""
+        }`}
+      >
         <svg
           width="41"
           height="40"
